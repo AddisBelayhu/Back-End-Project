@@ -74,7 +74,13 @@ req.body.password = bcrypt.hashSync(req.body.password, salt)
 const ourStatement = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)")
 ourStatement.run(req.body.username, req.body.password)
 
-// log the user in by giving them a cookies
+// log the user in by giving them a cookie
+res.cookie("ourSimpleApp", "supertopsecretvalue", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: 1000 * 60 * 60 * 24
+})
 
 res.send("Thank You")
 })
